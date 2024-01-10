@@ -1,0 +1,8 @@
+
+*.config
+bin/
+obj/
+Properties/
+*.csproj
+*.resx
+.vs/
