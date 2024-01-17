@@ -13,6 +13,9 @@ namespace UserControl_29
 {
     public partial class UCinfo : DevExpress.XtraEditors.XtraUserControl
     {
+        public delegate int delEvent(object Sender, String strText);    // delegate 선언
+        public event delEvent eventdelSender;   // delegate event 선언
+
 
         [Category("UserProperty"), Description("Image")]
         public Image UserFace 
@@ -73,21 +76,31 @@ namespace UserControl_29
 
         private void btn_Click(object sender, EventArgs e)
         {
+            string strText = string.Empty;
+
             Button oBtn = sender as Button;
 
             switch (oBtn.Name)
             {
                 case "btnReg":
                     this.BackColor = Color.Red;
+                    strText = string.Format("{0}은 금액 {1}으로 수배중 입니다.", lblName.Text ,lblGold.Text);
                     break;
                 case "btnIdle":
                     this.BackColor = Color.Yellow;
+                    strText = string.Format("{0}은 수배 중지 상태 입니다.", lblName.Text);
                     break;
                 case "btnCatch":
                     this.BackColor = Color.Green;
+                    strText = string.Format("{0}은 금액 잡혔습니다.", lblName.Text);
                     break;
                 default:
                     break;
+            }
+
+            if (eventdelSender != null) // 부모가 Event를 생성하지 않았을 수 있으므로 생성 했을 경우에만
+            {
+                eventdelSender(this, strText);
             }
         }
     }
